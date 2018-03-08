@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import Shelf from '../../components/Shelf/Shelf'
-import {getAll} from '../../BooksAPI'
+import {getAll, update} from '../../BooksAPI'
 
 
 export default class Home extends Component {
@@ -26,6 +26,21 @@ export default class Home extends Component {
 		return this.state.books.filter((book) => book.shelf === shelf)
 	}
 
+	updateHandler(book, shelf){
+		this.updateBook(book, shelf)
+		update(book, shelf)
+	}
+
+	updateBook(book, shelf){
+		let books = this.state.books;
+		books.forEach((oldBook, ind) => {
+			if (oldBook.id === book.id){
+				books[ind].shelf = shelf
+			}
+		})
+		this.setState({books: books})
+	}
+
 	render() {
 		return (
 			<div className="list-books">
@@ -35,9 +50,12 @@ export default class Home extends Component {
 
 				<div className="list-books-content">
 					<div>
-						<Shelf caption="Currently Reading" books={this.filterBooksByShelf('currentlyReading')}/>
-						<Shelf caption="Want to Read" books={this.filterBooksByShelf('wantToRead')}/>
-						<Shelf caption="Read" books={this.filterBooksByShelf('read')}/>
+						<Shelf caption="Currently Reading" books={this.filterBooksByShelf('currentlyReading')}
+							handler={this.updateHandler.bind(this)}/>
+						<Shelf caption="Want to Read" books={this.filterBooksByShelf('wantToRead')}
+							handler={this.updateHandler.bind(this)}/>
+						<Shelf caption="Read" books={this.filterBooksByShelf('read')}
+							handler={this.updateHandler.bind(this)}/>
 					</div>
 				</div>
 

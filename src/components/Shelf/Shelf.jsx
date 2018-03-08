@@ -6,7 +6,7 @@ import Book from '../Book/Book'
 export default class Shelf extends Component {
 	render() {
 		let books = this.props.books.map((book) => (
-			<Book key={book.id} {...book}/>
+			<Book key={book.id} {...book} handler={this.props.handler}/>
 		))
 		return (
 			<div className="bookshelf">
