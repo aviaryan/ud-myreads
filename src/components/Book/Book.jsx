@@ -9,6 +9,8 @@ export default class Book extends Component {
 	}
 
 	render(){
+		const shelf = this.props.shelf ? this.props.shelf : 'none'
+
 		return (
 			<li>
 				<div className="book">
@@ -19,8 +21,8 @@ export default class Book extends Component {
 							backgroundImage: `url("${this.props.imageLinks ? this.props.imageLinks.thumbnail : ''}")`
 						}}></div>
 						<div className="book-shelf-changer">
-							<select value={this.props.shelf} onChange={this.handleBookUpdate.bind(this)}>
-								<option value="none" disabled>Move to...</option>
+							<select value={shelf} onChange={this.handleBookUpdate.bind(this)}>
+								<option disabled>Move to...</option>
 								<option value="currentlyReading">Currently Reading</option>
 								<option value="wantToRead">Want to Read</option>
 								<option value="read">Read</option>
