@@ -13,10 +13,17 @@ export default class Search extends Component {
 
 	doSearch(term){
 		if (!term){
+			this.setState({books: []})
 			return;
 		}
 		search(term).then((books) => {
+			console.log('search done')  // again takes a lot of time so
 			this.setState({books: books})
+		}).catch (() => {
+			console.log('search failed')
+			this.setState({books: []})
+			// happens sometimes, maybe on invalid terms
+			// REQ: Invalid queries are handled and prior search results are not shown.
 		})
 	}
 
