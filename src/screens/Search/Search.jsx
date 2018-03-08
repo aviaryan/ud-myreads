@@ -7,21 +7,36 @@ export default class Search extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			books: []
+			books: [],
+			reqCount: 0,
+			maxReq: 0
 		}
 	}
 
+	setSearchState(books, curReq){
+		if (curReq < this.state.maxReq){
+			console.log('a response was invalidated')
+			// old request, invalidate
+			return;
+		}
+		this.setState({books: books, maxReq: curReq})
+	}
+
 	doSearch(term){
+		// attaching IDs to request, to solve async stale data issues
+		let curReq = this.state.reqCount + 1
+		this.setState({reqCount: curReq})
+	
 		if (!term){
-			this.setState({books: []})
+			this.setSearchState([], curReq)
 			return;
 		}
 		search(term).then((books) => {
 			console.log('search done')  // again takes a lot of time so
-			this.setState({books: books})
+			this.setSearchState(books, curReq)
 		}).catch (() => {
 			console.log('search failed')
-			this.setState({books: []})
+			this.setSearchState([], curReq)
 			// happens sometimes, maybe on invalid terms
 			// REQ: Invalid queries are handled and prior search results are not shown.
 		})
