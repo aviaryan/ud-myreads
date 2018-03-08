@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import { search, update } from '../../BooksAPI'
+import { search, update, getAll } from '../../BooksAPI'
 import Book from '../../components/Book/Book'
 
 export default class Search extends Component {
@@ -9,8 +9,20 @@ export default class Search extends Component {
 		this.state = {
 			books: [],
 			reqCount: 0,
-			maxReq: 0
+			maxReq: 0,
+			allBooks: []
 		}
+	}
+
+	componentDidMount() {
+		this.fetchBooks()
+	}
+
+	fetchBooks() {
+		getAll().then((data) => {
+			console.log('all books loaded')
+			this.setState({ allBooks: data })
+		})
 	}
 
 	setSearchState(books, curReq){
@@ -63,9 +75,21 @@ export default class Search extends Component {
 		this.setState({ books: books })
 	}
 
+	// gets book from allBooks collection
+	getBook(searchBook){
+		let books = this.state.allBooks;
+		for (let key in books){
+			if (books[key].id === searchBook.id){
+				console.log('match in search books and own books')
+				return books[key]
+			}
+		}
+		return searchBook
+	}
+
 	render() {
 		let books = this.state.books.map((book) => (
-			<Book key={book.id} {...book} handler={this.updateHandler.bind(this)} />
+			<Book key={book.id} {...this.getBook(book)} handler={this.updateHandler.bind(this)} />
 		))
 		return (
 			<div className="search-books">
