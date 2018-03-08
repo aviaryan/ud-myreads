@@ -12,8 +12,9 @@ export default class Home extends Component {
 
 				<div className="list-books-content">
 					<div>
-						<Shelf/>
-						<Shelf/>
+						<Shelf caption="Currently Reading"/>
+						<Shelf caption="Want to Read"/>
+						<Shelf caption="Read" />
 					</div>
 				</div>
 
