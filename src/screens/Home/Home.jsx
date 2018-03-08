@@ -28,7 +28,8 @@ export default class Home extends Component {
 
 	updateHandler(book, shelf){
 		this.updateBook(book, shelf)
-		update(book, shelf)
+		update(book, shelf).then(() => console.log('Book update done'))
+		// ^ takes a lot of time so better for checking
 	}
 
 	updateBook(book, shelf){
