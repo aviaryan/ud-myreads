@@ -66,13 +66,13 @@ export default class Search extends Component {
 	}
 
 	updateBook(book, shelf) {
-		let books = this.state.books;
+		let books = this.state.allBooks
 		books.forEach((oldBook, ind) => {
 			if (oldBook.id === book.id) {
 				books[ind].shelf = shelf
 			}
 		})
-		this.setState({ books: books })
+		this.setState({ allBooks: books })
 	}
 
 	// gets book from allBooks collection
