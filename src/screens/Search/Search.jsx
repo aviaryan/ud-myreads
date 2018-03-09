@@ -67,11 +67,18 @@ export default class Search extends Component {
 
 	updateBook(book, shelf) {
 		let books = this.state.allBooks
+		let found = false
 		books.forEach((oldBook, ind) => {
 			if (oldBook.id === book.id) {
 				books[ind].shelf = shelf
+				found = true
 			}
 		})
+		if (!found){
+			// add new book
+			books[book.id] = JSON.parse(JSON.stringify(book)) // clone
+			books[book.id].shelf = shelf
+		}
 		this.setState({ allBooks: books })
 	}
 
